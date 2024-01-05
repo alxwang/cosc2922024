@@ -3,10 +3,10 @@
 
 int main(int argc, char* argv[])
 {
-    long l;
-    int i;
-    short s;
-    char c;
+    long l=1;
+    int i=0;
+    short s=2;
+    char c='a';
     float f;
     double d;
     //In Windows, long is 4 bytes, int is 4 bytes, short is 2 bytes, char is 1 byte, float is 4 bytes, double is 8 bytes
