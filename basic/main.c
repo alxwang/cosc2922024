@@ -97,9 +97,68 @@ void stringFuncs()
     //S1 is an memory address
     printf("s1 is at %x\n",s1);
     char * s2 = s1;//Pointer is datatype for memory address
-    printf("s2 is at %x\n",s2);
-    printf("s1 = %s\n",s1);
-    printf("s2 = %s\n",s2);
+//    char * s2 = &s1[0]//Same as line 99
+//    printf("s2 is at %x\n",s2);
+//    printf("s1 = %x\n",s1);
+//    printf("s2 = %s\n",s2);
+
+//    printf("[%x]%c\n",s1,s1[0]);
+//    printf("[%x]%c\n",s1+1,s1[1]);
+//    printf("[%x]%c\n",s1+2,s1[2]);
+//    printf("[%x]%c\n",s1+3,s1[3]);
+//    printf("[%x]%d\n",s1+4,s1[4]);
+
+
+//    printf("[%x]%c\n",s1,s1[0]);
+//    printf("[%x]%c\n",++s2,s1[1]);
+//    printf("[%x]%c\n",++s2,s1[2]);
+//    printf("[%x]%c\n",++s2,s1[3]);
+//    printf("[%x]%d\n",++s2,s1[4]);
+
+
+//    printf("[%x]%c\n",s2,*s2);
+//    s2++;
+//    printf("[%x]%c\n",s2,*s2);
+//    s2++;
+//    printf("[%x]%c\n",s2,*s2);
+//    s2++;
+//    printf("[%x]%c\n",s2,*s2);
+//    s2++;
+//    printf("[%x]%d\n",s2,*s2);
+
+
+    int l = 0;
+    int * p_l = &l;
+    printf("%d = %x? %d\n",l,*p_l,l==*p_l);
+
+//    int * p;//0
+
+//    if (++(*p_l)){
+//        printf("True\n");
+//    }
+//    else
+//    {
+//        printf("False\n");
+//    }
+
+}
+
+void loopDemo()
+{
+//    for(int i =0;i<10;i++)
+//    {
+//        printf("%d ",i);
+//    }
+    char s1[]="Alex";
+    //S1 is an memory address
+    printf("s1 is at %x\n",s1);
+    char * s2 = s1;//Pointer is datatype for memory address
+
+    for(char * ps = s1;*ps;ps++)
+    {
+        printf("%c ",*ps);
+    }
+
 }
 
 
@@ -113,7 +172,8 @@ int main(int argc, char *argv[])
 //    modifiers();
 //    castDemo();
 //    stringDemo();
-    stringFuncs();
+//    stringFuncs();
+    loopDemo();
     return EXIT_SUCCESS;//Return 0;
 }
 
