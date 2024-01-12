@@ -1,10 +1,10 @@
 //Everything started with # is a pre-process directive
 #include "stdio.h"
 #include "stdlib.h"
-
+#include <stdbool.h>
+#include "strfuncs.h"
 //Macro
-#define PI 3.1415926
-const float CPI= 3.1415926f;
+
 
 //int maxi(int a, int b)
 //{
@@ -143,6 +143,10 @@ void stringFuncs()
 
 }
 
+
+
+
+
 void loopDemo()
 {
 //    for(int i =0;i<10;i++)
@@ -158,6 +162,8 @@ void loopDemo()
     {
         printf("%c ",*ps);
     }
+    //Code to test stringlen function
+    printf("Str: %s has %d chars\n",s1, stringlen(s1));//Expect output 4 chars
 
 }
 
@@ -173,7 +179,14 @@ int main(int argc, char *argv[])
 //    castDemo();
 //    stringDemo();
 //    stringFuncs();
-    loopDemo();
+//    loopDemo();
+    _Bool a = -1; //a will be convert to 1 if the assigned val is not zero
+    printf("Boolean a is %d\n",a);
+
+    float f = PI;
+
+    bool b = false;
+    printf("Boolean b is %d",b);
     return EXIT_SUCCESS;//Return 0;
 }
 

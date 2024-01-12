@@ -3,4 +3,6 @@ project(basic C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(basic main.c)
+add_executable(basic main.c
+        strfuncs.h
+        strfuncs.c)
