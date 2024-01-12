@@ -1,12 +1,23 @@
 #include <stdio.h>
 
+
+/*
+ * 1. Create a new prj call memmap and import my main.c from github
+ * 2. Make the new prj to see the result like mine
+ * 3. Copy low 8 chars from 'a' address to "Address of Highest:" in excel file
+ * 4. Complete the memmap by put a,c,s,cArray into memmap
+ * *
+ */
+
+//the args of function(if there is one) will be on the bottom of stack
 int memoryMap(float x)
 {
     static int i = 0;
-    int a = 1235257896;
+    int a = 1235257896;//Early defined var stays on the top of stack
     double d = 9.0;
     float b = 3.2f;
     char c = 'a';
+    //Some space could be alloced between vars
     short s = 10815;
     char cArray[] = "Hello";
 
