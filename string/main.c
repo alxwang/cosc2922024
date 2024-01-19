@@ -34,12 +34,12 @@ int main() {
     printf("str is %s str1\n",
            strncmp(str,str1,6)<0?"less than":"greater than or equal to");
 
-    //Find a char in a string, return the substr form the char NOT INDEX
+    //Find a char in a string, return the point to substr form the char NOT INDEX
     printf("h in str2 is at %s\n",strchr(str2,'h'));
     printf("e in str2 is at %s\n",strchr(str2,'e'));
     printf("(Rev search)e in str2 is at %s\n",strrchr(str2,'e'));
 
-    //Find a substring
+    //Find a substring,return the point to substr form the char NOT INDEX
     printf("ello in str2 is at %s\n",strstr(str2,"ello"));
 
     //Work to complete before next class:
