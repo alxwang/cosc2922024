@@ -2,6 +2,7 @@
 // Created by Alex Wang on 2024-01-25.
 //
 #include <stdio.h>
+#include <strings.h>
 #include "array_pointers.h"
 
 void intArrayPrinter(int iArr[],int iSize)
@@ -63,24 +64,43 @@ void intBytePrinter(int iVal)
         pChar++;
     }
 }
-
+//Complete encode and decode as a group. The starter code is in github already
 double encode()
 {
     double  x = 0.0;//x is hold 8 bytes of memory
 
-    printf("Please enter 3 letters name:");
+    char * pStr = (char*)&x;
 
+    printf("Please enter 3 letters name:");
+    char name[4];
+    name[0]='\0';
+    scanf("%3s",name);
+    strcpy(pStr,name);
+
+    pStr+= (strlen(pStr)+1);//pStr is point to 5th bytes of the string
 
     printf("Please enter a age(<128)");
+    unsigned char age = 0;
+    scanf("%d",&age);
 
+    *pStr = age;
+    pStr++; //pStr is point to 6th bytes
 
     printf("please enter the student loan(<65535)");
-
+    unsigned short loan = 0;
+    scanf("%d",&loan);
+    unsigned short * pShort = (unsigned short *)pStr;
+    *pShort = loan;
 
     return x;
 }
 void decode(double x)
 {
     //print the name, age, load embeded in the 8 bytes mem of the x
-
+    char * pStr = (char*)&x;
+    printf("Name is %s\n",pStr);
+    pStr += strlen(pStr)+1;//Point to 5th byte
+    printf("Age is %d\n",*pStr);
+    pStr++;
+    printf("Load is %d\n",  *((unsigned short *)pStr));
 }
