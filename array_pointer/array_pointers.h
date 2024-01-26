@@ -7,6 +7,9 @@
 
 void intArrayPrinter(int iArr[],int iSize);
 void intArrayAsPointerPrinter(int * iArr,int iSize);
-
-
+void charArrayPrinter(char cArr[],int len);
+void charArrayAsPointerPrinter(char * cArr);
+void intBytePrinter(int iVal);
+double encode();
+void decode(double x);
 #endif //ARRAY_POINTER_ARRAY_POINTERS_H
