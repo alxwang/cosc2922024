@@ -102,5 +102,5 @@ void decode(double x)
     pStr += strlen(pStr)+1;//Point to 5th byte
     printf("Age is %d\n",*pStr);
     pStr++;
-    printf("Load is %d\n",  *((unsigned short *)pStr));
+    printf("Loan is %d\n",  *((unsigned short *)pStr));
 }
