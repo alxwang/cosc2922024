@@ -39,7 +39,7 @@ int myIndexOfwithCount(char * str, char ch,int  * pcount)
     return iPos;
 }
 
-int myIndexOfwithCountandPos(char * str, char ch,int  * pcount,char * lastPos)
+int myIndexOfwithCountandPos(char * str, char ch,int  * pcount,char **lastPos)
 {
     int iLoc = 0;
     *pcount = 0;
@@ -54,7 +54,7 @@ int myIndexOfwithCountandPos(char * str, char ch,int  * pcount,char * lastPos)
                 iPos = iLoc;
                 bFirsttime=0;//bFirsttime is false now
             }
-            lastPos = str;
+            *lastPos = str;
             (*pcount)++;
         }
         iLoc++;
@@ -76,7 +76,7 @@ int main() {
     printf("(%d) %c is in %s at %d\n",count,'a',cTestString,iLoc);
 
     char * lastPos = NULL;
-    iLoc= myIndexOfwithCountandPos(cTestString,'a',&count,lastPos);
+    iLoc= myIndexOfwithCountandPos(cTestString,'a',&count,&lastPos);
     printf("(%d) %c is in \"%s\" at (%d)\"%s\"\n",count,'a',cTestString,iLoc,lastPos);
 
 
