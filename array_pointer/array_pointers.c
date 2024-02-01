@@ -108,3 +108,50 @@ void decode(double x)
     printf("Loan is %d\n",  *((unsigned short *)(pStr+5)));
 
 }
+
+//Read a string in one func call with space
+int readString(char * str, int len)
+{
+    char ch = 0;
+    char * pCur = str;
+    //When user enter "enter" key the input is completed
+    //Make sure I do not use more than len bytes
+    while(ch != '\n' && pCur-str<len-1)
+    {
+        ch = getchar();//Get a char from user
+        *pCur = ch;
+        pCur++;
+    }
+    *pCur=0;
+    return pCur-str-1;
+}
+
+void printStrAsInt(char * str)
+{
+    //Have a loop to point an int pointer
+    // to each 4 bytes in the str
+    int * pCur =(int*)str;
+    int numofInts = (strlen(str)+1) / 4;//(9+1)/4=2
+    for(int i=0;i<numofInts;i++)
+    {
+        printf("%x ",*(pCur+i));
+    }
+
+    //Have an int value and copy left over bytes to
+    //the int's memory
+    //Left over is <4 bytes
+    //Use the mem of newInt as the buffer to build the last int
+    int newInt = 0;
+    //Use pIntChar to access the mem of newInt in bytes
+    char * pIntChar = (char*)&newInt;
+    //pCurChar is point to the first byte of the left over
+    char * pCurChar = str+((numofInts)*sizeof(int));
+    //Copy each byte from str to newint
+    while(*pCurChar)
+    {
+        *pIntChar = *pCurChar;
+        pIntChar++;
+        pCurChar++;
+    }
+    printf("%x ",newInt);
+}

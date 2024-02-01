@@ -12,4 +12,6 @@ void charArrayAsPointerPrinter(char * cArr);
 void intBytePrinter(int iVal);
 double encode();
 void decode(double x);
+int readString(char * str, int len);
+void printStrAsInt(char * str);
 #endif //ARRAY_POINTER_ARRAY_POINTERS_H
