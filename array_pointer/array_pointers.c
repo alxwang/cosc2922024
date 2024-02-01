@@ -149,6 +149,7 @@ void printStrAsInt(char * str)
     //Copy each byte from str to newint
     while(*pCurChar)
     {
+        //Copy a byte from str to int
         *pIntChar = *pCurChar;
         pIntChar++;
         pCurChar++;
