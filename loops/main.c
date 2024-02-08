@@ -1,4 +1,34 @@
 #include <stdio.h>
+void addArray1(int * arr,int size)
+{
+    //Add 1 to each element in arr
+    for(int i =0;i<size;i++)
+    {
+        printf("%d ",arr[i]);
+    }
+}
+
+
+void addArray(int arr[],int size)
+{
+    //Add 1 to each element in arr
+    for(int i =0;i<size;i++)
+    {
+        printf("%f ",arr[i]);
+    }
+}
+
+
+void testArrayAdd()
+{
+    int arr[] = {1,2,3,4,5,6};
+    for(int i =0;i<sizeof(arr);i++)
+    {
+        printf("%d ",arr[i]);
+    }
+}
+
+
 int str_count(char * str);
 void str_print(char * str) {
    char *pcur = str;
