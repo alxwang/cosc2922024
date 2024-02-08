@@ -30,13 +30,18 @@ int writeRec(const char * filename,const char * mode)
         //Do something here
         char name[MAX_NAME_LEN+1];
         name[0]='\0';
-        printf("Please enter a name:");
-        fgets(name,MAX_NAME_LEN,stdin);
         int sin = 0;
-        printf("Please enter a SIN #:");
-        scanf("%d",&sin);
-        fwrite(&sin,sizeof(int),1,file);
-        fwrite(name,MAX_NAME_LEN,1,file);
+        int i=0;
+        while(i<3) {
+            printf("Please enter a name:");
+            fgets(name, MAX_NAME_LEN, stdin);
+            printf("Please enter a SIN #:");
+            scanf("%d", &sin);
+            getc(stdin);
+            fwrite(&sin, sizeof(int), 1, file);
+            fwrite(name, MAX_NAME_LEN, 1, file);
+            i++;
+        }
         fclose(file);
     }
     return 1;
@@ -65,6 +70,30 @@ int searchRec(const char * filename,const char * mode)
     if (EXIT_SUCCESS==openFile(filename,mode,&file))
     {
         //Do something here
+        char name[MAX_NAME_LEN+1];
+        name[0]='\0';
+        int sin = 0;
+        int i=0;
+        int sin2search=0;
+        printf("Please enter a SIN to search:");
+        scanf("%d",&sin2search);
+
+        while(!feof(file))
+        {
+            fread(&sin,sizeof(int),1,file);
+            if(sin==sin2search)
+            {
+                fread(name,MAX_NAME_LEN,1,file);
+                printf("Found %d: %s\n",sin,name);
+                break;
+            }
+            else
+            {
+                fseek(file,MAX_NAME_LEN,SEEK_CUR);
+                //fread(name,MAX_NAME_LEN,1,file);
+            }
+        }
+
         fclose(file);
     }
     return 1;
@@ -74,8 +103,8 @@ int searchRec(const char * filename,const char * mode)
 int main() {
     printf("Hello, World!\n");
     char filename[]="test.bin";
-    writeRec(filename,"wb,");
-    readRec(filename,"rb");
+//    writeRec(filename,"wb,");
+//    readRec(filename,"rb");
     searchRec(filename,"rb");
     return 0;
 }
