@@ -141,6 +141,14 @@ char* concatenateString(const char* cFirstPtr, const char* cSecondPtr)
     }
 
     return cReturnString;
+
+    /* Another good solution
+     *  int size = strlen(cFirstPtr) + strlen(cSecondPtr) +1;
+    char* rs = (char*)malloc(size * sizeof(char));
+    strcpy(rs, cFirstPtr);
+    strcat(rs, cSecondPtr);
+    return rs;
+     */
 }
 
 int main() {
