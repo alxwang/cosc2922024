@@ -88,6 +88,9 @@ char * getSinAndName()
     getc(stdin);
     printf("Please enter your name:");
     fgets(buf,199,stdin);
+    //Remove the 0a from buf
+    buf[strlen(buf)-1] = 0;
+
     char * rs = (char *) malloc(strlen(buf)+1+sizeof(int));
     strcpy(rs,buf);
     *((int*)(rs+ strlen(buf)+1)) = sin;
@@ -102,6 +105,27 @@ void printSinAndName(char * buf)
     printf("%s %d",name,*pSin);
 }
 
+//Remove the space or newline from the beginning and end of the string
+char * trim(char * str)
+{
+    char * pCur = str;
+    //Loop each char from begin to end
+    while(*pCur==10 || * pCur==32) pCur++;
+    char * rs = pCur;
+    //Loop each char from end to begin
+    pCur = str+(strlen(str)-1);
+    while(*pCur==10 || *pCur==32)
+    {
+        *pCur = 0;
+        pCur--;
+    }
+    return rs;
+}
+
+char* concatenateString(const char* cFirstPtr, const char* cSecondPtr)
+{
+
+}
 
 int main() {
 //    int size = 0;
@@ -117,8 +141,15 @@ int main() {
 //    char * str = getStringDynamic("Please enter a string:");
 //    printf("%s",str);
 //    free(str);
-    char * buf = getSinAndName();
-    print_memory(buf,strlen(buf)+1+ sizeof(int));
-    printSinAndName(buf);
-    free(buf);
+//    char * buf = getSinAndName();
+//    print_memory(buf,strlen(buf)+1+ sizeof(int));
+//    printSinAndName(buf);
+//    free(buf);
+//    char str[]="    alex  ";
+    char str[]="           ";
+    str[2] = 10;
+    str[strlen(str)-2] = 10;
+    printf("[%s]\n",str);
+    char * rs = trim(str);
+    printf("[%s]\n",rs);
 }
