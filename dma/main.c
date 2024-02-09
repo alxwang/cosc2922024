@@ -68,7 +68,6 @@ char * getStringDynamic(const char * prompt)
     fgets(buf,199,stdin);
     //How to return the string in buf?
     //Stack will be free after the current function exits
-    //TODO: use malloc to solve the problem
     char * rs = (char*) malloc((strlen(buf)+1)* sizeof(char));
     strcpy(rs,buf);
     /*
@@ -77,7 +76,6 @@ char * getStringDynamic(const char * prompt)
     return rs;
 }
 
-//TODO: change the code to remove the newline(0a) in rs before it is returned.
 char * getSinAndName()
 {
     char buf[200];
@@ -121,10 +119,28 @@ char * trim(char * str)
     }
     return rs;
 }
-
 char* concatenateString(const char* cFirstPtr, const char* cSecondPtr)
 {
+    int iLengthFirst = strlen(cFirstPtr);
+    int iLengthSecond = strlen(cSecondPtr);
 
+    // Note that we must include space for the null terminator
+    char* cReturnString = (char*)malloc(iLengthFirst + iLengthSecond + 1);
+
+    if (cReturnString)
+    {
+        // Just to be safe, initialize our string to empty
+        cReturnString[0] = '\0';
+
+        // Copy the first string to destination
+        strcpy(cReturnString, cFirstPtr);
+
+        // Copy the second string to the end of the first string
+        //strcat(cReturnString, cSecondPtr);
+        strcpy(cReturnString + iLengthFirst, cSecondPtr);
+    }
+
+    return cReturnString;
 }
 
 int main() {
