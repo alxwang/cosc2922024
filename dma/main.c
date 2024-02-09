@@ -44,7 +44,7 @@ int * ints_cat_r(int * pInt1, int size1,
     /*
      * if there are enough bytes(size2) after pInt1, then a new pointer will be return at the same pos as pint1
      * With the size of size1+size2(extent the memory block size from size1 to size1+2
-     * Otherwise, a new block mem will be alloced somewhere as size1+2, and
+     * Otherwise, a new block mem will be allocated somewhere as size1+2, and
      * mem in pint1 will be copied to the new loc and old pint1 will be freed
      */
     memcpy(prs+size1,pInt2,size2*sizeof(int));
@@ -54,6 +54,20 @@ int * ints_cat_r(int * pInt1, int size1,
 //Return a new int list which is newSize and contains the values in pInt
 int * inc_ints(int * pInt, int size, int newSize)
 {
+    int * pre = (int*) malloc((newSize)* sizeof(int));
+    memcpy(pre,pInt,size* sizeof(int));
+    return pre;
+}
+
+char * getStringDynamic(const char * prompt)
+{
+    char buf[200];
+    buf[0]='\0';
+    printf(prompt);
+    fgets(buf,199,stdin);
+    //How to return the string in buf?
+    //Stack will be free after the current function exits
+    //TODO: use malloc to solve the problem
 
 }
 
