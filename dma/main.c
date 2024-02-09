@@ -29,10 +29,32 @@ void inputInts(int * pInt,int size)
 int * ints_cat(int * pInt1, int size1,
                int * pInt2, int size2)
 {
-    int * prs = (int*)malloc((size1+size2)* sizeof(int));
-    memcpy(prs,pInt1,size1* sizeof(int));
-    memcpy(prs+size1* sizeof(int),pInt2,size2* sizeof(int));
+    int * prs = (int*)malloc((size1+size2)*sizeof(int));
+    memcpy(prs,pInt1,size1*sizeof(int));
+//  memcpy(prs+size1*sizeof(int),pInt2,size2*sizeof(int));
+//  pre is an int*, so if we want to find the pos of 2nd array,we add size1(how many ints) not bytes
+    memcpy(prs+size1,pInt2,size2*sizeof(int));
     return prs;
+}
+
+int * ints_cat_r(int * pInt1, int size1,
+               int * pInt2, int size2)
+{
+    int * prs = (int*)realloc(pInt1,(size1+size2)*sizeof(int));
+    /*
+     * if there are enough bytes(size2) after pInt1, then a new pointer will be return at the same pos as pint1
+     * With the size of size1+size2(extent the memory block size from size1 to size1+2
+     * Otherwise, a new block mem will be alloced somewhere as size1+2, and
+     * mem in pint1 will be copied to the new loc and old pint1 will be freed
+     */
+    memcpy(prs+size1,pInt2,size2*sizeof(int));
+    return prs;
+}
+
+//Return a new int list which is newSize and contains the values in pInt
+int * inc_ints(int * pInt, int size, int newSize)
+{
+
 }
 
 int main() {
@@ -43,7 +65,7 @@ int main() {
     inputInts(parr,size);
     printInts(parr,size);
     int newarr[]={100,200,3000};
-    int * rs = ints_cat(parr,size,newarr,3);
+    int * rs = ints_cat_r(parr,size,newarr,3);
     printInts(rs,size+3);
-    free(parr);
+    free(rs);
 }
