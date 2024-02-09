@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
+#include "printmem.h"
 void printInts(int * pInts,int size)
 {
     for(int i=0;i<size;i++)
@@ -68,18 +69,56 @@ char * getStringDynamic(const char * prompt)
     //How to return the string in buf?
     //Stack will be free after the current function exits
     //TODO: use malloc to solve the problem
-
+    char * rs = (char*) malloc((strlen(buf)+1)* sizeof(char));
+    strcpy(rs,buf);
+    /*
+     * memset,memcpy
+     */
+    return rs;
 }
 
+//TODO: change the code to remove the newline(0a) in rs before it is returned.
+char * getSinAndName()
+{
+    char buf[200];
+    buf[0]='\0';
+    int sin = 0;
+    printf("Please enter a sin#:");
+    scanf("%d",&sin);
+    getc(stdin);
+    printf("Please enter your name:");
+    fgets(buf,199,stdin);
+    char * rs = (char *) malloc(strlen(buf)+1+sizeof(int));
+    strcpy(rs,buf);
+    *((int*)(rs+ strlen(buf)+1)) = sin;
+//    memcpy(rs+ strlen(buf)+1,&sin, sizeof(4));
+    return rs;
+}
+
+void printSinAndName(char * buf)
+{
+    char * name = buf;
+    int * pSin = buf+ strlen(name)+1;
+    printf("%s %d",name,*pSin);
+}
+
+
 int main() {
-    int size = 0;
-    printf("How many ints?");
-    scanf("%d", &size);
-    int * parr = getInts(size);
-    inputInts(parr,size);
-    printInts(parr,size);
-    int newarr[]={100,200,3000};
-    int * rs = ints_cat_r(parr,size,newarr,3);
-    printInts(rs,size+3);
-    free(rs);
+//    int size = 0;
+//    printf("How many ints?");
+//    scanf("%d", &size);
+//    int * parr = getInts(size);
+//    inputInts(parr,size);
+//    printInts(parr,size);
+//    int newarr[]={100,200,3000};
+//    int * rs = ints_cat_r(parr,size,newarr,3);
+//    printInts(rs,size+3);
+//    free(rs);
+//    char * str = getStringDynamic("Please enter a string:");
+//    printf("%s",str);
+//    free(str);
+    char * buf = getSinAndName();
+    print_memory(buf,strlen(buf)+1+ sizeof(int));
+    printSinAndName(buf);
+    free(buf);
 }
