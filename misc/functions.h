@@ -7,4 +7,7 @@
 void trimRight(char ** cPtrPtr, int count);
 int findChar(char * str, char tofind, char ** strptrptr);
 void testJaggedArray();
+void testDoubleArrayWithMax();
+void testSwapBytesWithPointer();
+int getGrade(int * grade_count);
 #endif //MISC_FUNCTIONS_H
