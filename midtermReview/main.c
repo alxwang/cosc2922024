@@ -122,6 +122,30 @@ void testHideUnhide() {
     unHideString(iArray);
 }
 
+#define MAXLENGTH 100
+char * getName(int * length,char ** lastChar)
+{
+    char buf[MAXLENGTH];
+    printf("Enter a name:");
+    //We need to get space
+    char * input = fgets(buf,MAXLENGTH,stdin);
+    char * rs = NULL;
+    if(input)
+    {
+        *length= strlen(input);
+        //Choice 1:
+        rs = strdup(input);
+        rs[*length-1] = 0;
+        *length= strlen(rs);
+        //Chice 2:
+//        rs = (char*) malloc(*length*sizeof(char));
+//        strcpy(rs,input);
+//        memcpy(rs,input,(*length)+1);
+        *lastChar = rs+(*length)-1;
+    }
+    return rs;
+}
+
 int main() {
 //    enumerations();
 //    test_enter_name();
@@ -133,6 +157,16 @@ int main() {
 //    string_cat(string3,string1);
 //    string_cat(string3,string2);
 //    printf("String 3 after concat:[%s]\n",string3);
-    testHideUnhide();
+//    testHideUnhide();
+    int len = 0;
+    char * lastChar = NULL;
+    char * name = getName(&len,&lastChar);
+    printf("[%s] [%s]\n",name,lastChar);
+
+    for(int i=len;i>0;i--)
+    {
+        printf("%c ",*lastChar--);
+    }
+
     return 0;
 }
