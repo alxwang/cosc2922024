@@ -4,7 +4,7 @@
 // Prints a value as a string of bits (up to 32 bits)
 void showBits(const char * prompt, int value, int bytes)
 {
-    unsigned int filter = 1;
+    unsigned int filter = 1; //0b00000001
     int bit;
 
     char* bitString = (char*)malloc(33);
@@ -23,6 +23,16 @@ void showBits(const char * prompt, int value, int bytes)
             bitString[31 - bit] = '0';
         }
         filter *= 2; // Move to the next bit to the left
+        /*
+         * 0b00000001   1
+         * 0b00000010   2
+         * 0b00000100   4
+         * 0b00001000   8
+         * 0b00010000   16
+         * 0b00100000   32
+         * 0b01000000   64
+         * 0b10000000   128
+         */
     }
 
     printf("%s\t: The value %d in binary is \t%s\n", prompt,value, &bitString[32 - bytes * 8]);
@@ -49,12 +59,13 @@ void bitAND()
 
     int x = 0x30B1A0F;
     int maskFindBit = 0x00000004;
-//    int maskFindBit = 0b11110000;
+//    int maskFindBit = 0b00000000000000000000000000000100;
     showBits("x",x,sizeof(int));
     showBits("mask",maskFindBit,sizeof(int));
     showBits("rs",x & maskFindBit,sizeof(int));
 
     int masksetBittoZero = 0xFFFFFFFE;
+//    int masksetBittoZero = 0b11111111111111111111111111111110;
     showBits("x",x,sizeof(int));
     showBits("mask",masksetBittoZero,sizeof(int));
     showBits("rs",x & masksetBittoZero,sizeof(int));
@@ -76,8 +87,23 @@ void bitInversion()
 
 }
 
+void bitOR()
+{
+    //only 0 or 0 = 0, otherwise return 1
+    unsigned char a = 0x48;
+    unsigned char b = 0xB8;
+    unsigned char rs = a | b;
+    showBits("a",a,sizeof(char));
+    showBits("b",b,sizeof(char));
+    showBits("rs",rs, sizeof(char));
+
+
+
+}
+
 int main() {
 //    bitAND();
-    bitInversion();
+//    bitInversion();
+    bitOR();
     return 0;
 }
