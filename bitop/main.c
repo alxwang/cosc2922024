@@ -156,10 +156,13 @@ void shiftOp()
  * 1. Write a function swapNibbles that will take an unsigned char and make
  * the low-order 4 bits into the high-order 4 bits and also make the high-order 4 bits into the low-order 4 bits.
  * So for instance, passing in 11010011 would return 00111101.
+ * unsigned char swapNibbles(unsigned char a) {}
+ *
  * 2. Write a function blendNibbles that will take two unsigned chars and return
  * a result which contains the high-order nibble of the first unsigned char and then
  * (as the low-order nibble of the result) the high-order nibble of the second unsigned char.
  * So for instance, given 10001111 and 01101110, the return value would be 10000110.
+ * unsigned char blendNibbles(unsigned char first, unsigned char second){}
  *
  * Hint: 1. Both one line code function
  * 2. Assume the number is unsigned char
