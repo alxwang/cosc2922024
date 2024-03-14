@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <memory.h>
 // Prints a value as a string of bits (up to 32 bits)
-void showBits(const char * prompt, int value, int bytes)
+void showBits(const char * prompt, unsigned int value, int bytes)
 {
     unsigned int filter = 1; //0b00000001
     int bit;
@@ -229,8 +229,33 @@ unsigned char blendNibbles(unsigned char a,unsigned char b)
  * return 10110001000000000000000000000000). The signature would be:
 unsigned int reverseBits(unsigned int data)
 
+ - use & with mask to get each bit
+ - use | to put the bit you get back to result
+ - swap the pos when put
  */
+unsigned int reverseBits(unsigned int data)
+{
+    unsigned int rs = 0;
+    unsigned int cur_bit;//00000000000000000000000000000001 if the first bit is 1
+    int totalBits = sizeof(int)*8;
+    for(int i=0;i<totalBits;i++)
+    {
+        //1. get the ith bit. AND with a mask(1<<i)
+        showBits("data:",data,4);
+        cur_bit=data & (1<<i);
+        showBits("mask:",1<<i,4);
+        showBits("cur:",cur_bit,4);
 
+        //2. put the bit into rs at totalBits-i. OR
+        if(cur_bit)
+        {
+            rs |= 1 << (totalBits-i-1);
+        }
+        showBits("rs:",rs,4);
+        printf("-----------------------------------\n");
+    }
+    return rs;
+}
 
 int main() {
 //    bitAND();
@@ -240,12 +265,16 @@ int main() {
 //    shiftOp();
 //    shiftSignedNumber();
 //    shiftReturnInt();
-    unsigned char a = 0b11110001;
-    unsigned char b = 0b10010000;
+//    unsigned char a = 0b11110001;
+//    unsigned char b = 0b10010000;
+//
+//    showBits("a before:",a,sizeof(char));
+//    showBits("b before:",b,sizeof(char));
+//    a = blendNibbles(a,b);
+//    showBits("a after:",a,sizeof(char));
+    unsigned int i = 0b0000000000000000000010001101;
+    showBits("i:",i,4);
+    showBits("Rev:", reverseBits(i),4);
 
-    showBits("a before:",a,sizeof(char));
-    showBits("b before:",b,sizeof(char));
-    a = blendNibbles(a,b);
-    showBits("a after:",a,sizeof(char));
     return 0;
 }
