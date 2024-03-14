@@ -171,11 +171,81 @@ void shiftOp()
  * Ask me to join your room if you need help
  * All rooms will be kept opened until 4pm
  */
+
+//TODO Shift sign num, shfit alway return int, swapNibbles,blendNibbles
+//TODO typedef,func point - assign 2
+//Execise: reverseBits testPrecedence languageQuestions,encrypted
+//Execise: sort, extent encrypted
+
+void shiftSignedNumber()
+{
+    int i = -2;
+    int j = 2;
+    showBits("i=",i,sizeof(int));
+    showBits("j=",j,sizeof(int));
+//    showBits("i>>1",i>>1,sizeof(int));
+//    showBits("j>>1",j>>1,sizeof(int));
+//    showBits("i>>2",i>>2,sizeof(int));
+//    showBits("j>>2",j>>2,sizeof(int));
+//    showBits("i>>4",i>>4,sizeof(int));
+//    showBits("j>>4",j>>4,sizeof(int));
+    showBits("i<<1",i<<1,sizeof(int));
+    showBits("j<<1",j<<1,sizeof(int));
+    showBits("i<<2",i<<2,sizeof(int));
+    showBits("j<<2",j<<2,sizeof(int));
+    showBits("i<<4",i<<4,sizeof(int));
+    showBits("j<<4",j<<4,sizeof(int));
+
+}
+
+void shiftReturnInt()
+{
+    unsigned char c = 60;
+    showBits("c",c,sizeof(char));
+    showBits("c>>1",c>>1,sizeof(int));
+    showBits("c<<1",c<<1,sizeof(int));
+    showBits("c<<10",c<<10,sizeof(int));
+    showBits("c<<10",c<<10,sizeof(char));
+}
+
+unsigned char swapNibbles(unsigned char a)
+{
+    //a<<4 00000000
+    //a>>4 00001111
+    return (a<<4)|(a>>4);
+}
+
+unsigned char blendNibbles(unsigned char a,unsigned char b)
+{
+    //a & 0b11110000 ->11110000
+    //b>>4           ->00001001
+    return (a & 0b11110000) | (b>>4);
+}
+/*
+ * 3.	Write a function called reverseBits.
+ * Given an unsigned integer, return another unsigned integer
+ * where the bits are reversed. So if 0x0000008D is passed in,
+ * 0xB1000000 would be returned (0000000000000000000010001101 would
+ * return 10110001000000000000000000000000). The signature would be:
+unsigned int reverseBits(unsigned int data)
+
+ */
+
+
 int main() {
 //    bitAND();
 //    bitInversion();
 //    bitOR();
 //    bitXOR();
-    shiftOp();
+//    shiftOp();
+//    shiftSignedNumber();
+//    shiftReturnInt();
+    unsigned char a = 0b11110001;
+    unsigned char b = 0b10010000;
+
+    showBits("a before:",a,sizeof(char));
+    showBits("b before:",b,sizeof(char));
+    a = blendNibbles(a,b);
+    showBits("a after:",a,sizeof(char));
     return 0;
 }
