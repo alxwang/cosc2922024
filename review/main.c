@@ -96,16 +96,29 @@ void printGreetings(unsigned  char lang)
     }
 }
 
+typedef unsigned char (*ENCRYPTOR)(unsigned char c, unsigned char p);
+
+unsigned char encryptor(unsigned char c, unsigned char p)
+{
+    return c ^ p;
+}
+
+unsigned char encryptor1(unsigned char c, unsigned char p)
+{
+    return c ^ p+p;
+}
+
+
 // a ^ p = b
 // b ^ p = a
-void encryptMessage(FILE * in, FILE * out, FILE * pad)
+void encryptMessage(FILE * in, FILE * out, FILE * pad,ENCRYPTOR e)
 {
     int i,o,p;
     i = fgetc(in);
     while(!feof(in))
     {
         p = fgetc(pad);
-        o = i ^ p;
+        o = e(i,p);
         fputc(o,out);
         i = fgetc(in);
     }
@@ -139,6 +152,54 @@ void sortInts(int arr[], int size, COMPARER c)
     }
 }
 
+//Create a new row using malloc.
+//Return the pointer to the row.
+int* createRows(int* iPtr, int iRowSize){
+
+}
+
+//Print the values of the current row.
+int* printRows(int* iPtr, int iRowSize)
+{
+
+}
+
+//Free the row and return null
+int* freeRows(int* iPtr, int iRowSize){
+
+}
+
+//Define func pointer type ROW_FUNC based createRows,printRows,freeRows
+void twoDArrayRowModifier(int** iArray, int iNumRows, ROW_FUNC rf, int iRowSize)
+{
+
+}
+
+void testTwoDArray()
+{
+    int** iArray;
+    int iNumRows = 3;
+    int iRowSize = 3;
+
+    iArray = (int**)malloc(iNumRows * sizeof(int*));
+
+    //Create each row
+    twoDArrayRowModifier(iArray, iNumRows, createRows, iRowSize);
+
+    // Can call enterRows and doubleRows here...
+
+    //Print each row
+    twoDArrayRowModifier(iArray, iNumRows, printRows, iRowSize);
+
+    //Free each row
+    twoDArrayRowModifier(iArray, iNumRows, freeRows, iRowSize);
+
+    free(iArray);
+    iArray = NULL;
+}
+
+
+
 
 int main() {
 //    unsigned  char lang = languageQuestions();
@@ -150,11 +211,12 @@ int main() {
 //    fclose(in);
 //    fclose(out);
 //    fclose(pad);
-    int a[]={5,3,6,3,6,2,7,1};
-    sortInts(a,sizeof(a)/4,comp_a);
-    for(int i=0;i<sizeof(a)/4;i++)printf("%d ",a[i]);
-    printf("\n");
-    sortInts(a,sizeof(a)/4,comp_d);
-    for(int i=0;i<sizeof(a)/4;i++)printf("%d ",a[i]);
+//    int a[]={5,3,6,3,6,2,7,1};
+//    sortInts(a,sizeof(a)/4,comp_a);
+//    for(int i=0;i<sizeof(a)/4;i++)printf("%d ",a[i]);
+//    printf("\n");
+//    sortInts(a,sizeof(a)/4,comp_d);
+//    for(int i=0;i<sizeof(a)/4;i++)printf("%d ",a[i]);
+    testTwoDArray();
     return 0;
 }
