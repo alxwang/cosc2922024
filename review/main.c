@@ -155,24 +155,44 @@ void sortInts(int arr[], int size, COMPARER c)
 //Create a new row using malloc.
 //Return the pointer to the row.
 int* createRows(int* iPtr, int iRowSize){
-
+    return (int *) malloc(iRowSize*sizeof(int));
 }
 
 //Print the values of the current row.
 int* printRows(int* iPtr, int iRowSize)
 {
-
+    for(int i=0;i<iRowSize;i++)
+    {
+        printf("%d ",iPtr[i]);
+    }
+    printf("\n");
+    return NULL;
 }
 
+int* enterRows(int* iPtr, int iRowSize)
+{
+    //Fill the value of each numbers in a row
+}
+
+int* doubleRows(int* iPtr, int iRowSize)
+{
+    //Double the value of each row
+}
 //Free the row and return null
 int* freeRows(int* iPtr, int iRowSize){
-
+    free(iPtr);
+    return NULL;
 }
 
-//Define func pointer type ROW_FUNC based createRows,printRows,freeRows
+
+typedef int* (*ROW_FUNC)(int* iPtr, int iRowSize);
+
 void twoDArrayRowModifier(int** iArray, int iNumRows, ROW_FUNC rf, int iRowSize)
 {
-
+    for(int i =0;i<iNumRows;i++)
+    {
+        iArray[i] = rf(iArray[i],iRowSize);
+    }
 }
 
 void testTwoDArray()
