@@ -62,19 +62,27 @@ student* GetStudent()
 //Add each student into the classroom struct
 classroom * PopulateClassroom(){
     classroom * c = (classroom*) malloc(sizeof(classroom));
+    memset(c,0,sizeof(classroom));
     printf("Enter number of students: ");
     scanf("%hu", &c->sNumStudents);
     getc(stdin);
     //Your code
+    c->sPtrPtr = (student**) malloc(c->sNumStudents*sizeof(student*));
 
-
-
-
+    for(int i =0;i<c->sNumStudents;i++)
+    {
+        c->sPtrPtr[i] = GetStudent();
+    }
+    return c;
 }
 
 void FreeClassroom(classroom* classPtr)
 {
-
+    for(int i =0;i<classPtr->sNumStudents;i++)
+    {
+        free(classPtr->sPtrPtr[i]); //Free all students
+    }
+    free(classPtr->sPtrPtr); //free student array
 }
 
 
@@ -88,10 +96,14 @@ void DisplayClassroom(classroom * c)
 }
 
 
+//Try to write fwrite a classroom into file and load it back
+// If a member of stuct is pointer, fwrite the stuct will not fwrite the mem of the pointer for you.
+// Write the pointer addr into file does not have any value
+// You should always write the mem pointer point to to the file
 
 int main() {
-    student * s = GetStudent();
-    DisplayStudent(s);
-    FreeStudent(s);
+    classroom  * c = PopulateClassroom();
+    DisplayClassroom(c);
+    FreeClassroom(c);
     return 0;
 }
