@@ -83,6 +83,7 @@ void FreeClassroom(classroom* classPtr)
         free(classPtr->sPtrPtr[i]); //Free all students
     }
     free(classPtr->sPtrPtr); //free student array
+    free(classPtr);
 }
 
 
