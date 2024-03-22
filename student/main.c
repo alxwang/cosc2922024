@@ -63,7 +63,7 @@ student* GetStudent()
 classroom * PopulateClassroom(){
     classroom * c = (classroom*) malloc(sizeof(classroom));
     printf("Enter number of students: ");
-    scanf("%hu", &c.sNumStudents);
+    scanf("%hu", &c->sNumStudents);
     getc(stdin);
     //Your code
 
