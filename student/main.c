@@ -61,6 +61,14 @@ student* GetStudent()
 //Ask user enter the info of each student
 //Add each student into the classroom struct
 classroom * PopulateClassroom(){
+    classroom * c = (classroom*) malloc(sizeof(classroom));
+    printf("Enter number of students: ");
+    scanf("%hu", &c.sNumStudents);
+    getc(stdin);
+    //Your code
+
+
+
 
 }
 
