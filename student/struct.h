@@ -57,10 +57,10 @@ student* GetStudent();
 
 // Ask the user to populate the classroom. First ask how many students.
 // Then ask for data for each student.
-classroom PopulateClassroom();
+classroom * PopulateClassroom();
 
 // Display each student in the classroom
-void DisplayClassroom(classroom c);
+void DisplayClassroom(classroom * c);
 
 void FreeClassroom(classroom* classPtr);
 
