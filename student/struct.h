@@ -4,6 +4,7 @@
 
 #ifndef STUDENT_STRUCT_H
 #define STUDENT_STRUCT_H
+#define MAX_NAME_SIZE 128
 /*
  * Define two structs
  * 1. student includes name(not limitation pls), student#, list of marks(no limitation)
@@ -16,17 +17,19 @@
 typedef struct
 {
     //name
-
+    char * cNamePtr;
     //student#
-
+    int iStudentNum;
     //list of marks
-
+    int * iMarkPtr;
+    int iMarkCount;
 }student;
 
 typedef struct
 {
     //list of students
-
+    student ** sPtrPtr; //-->student * sPtr[] without limitation
+    int sNumStudents;
 }classroom;
 
 /*
@@ -42,7 +45,7 @@ student* CreateStudent(char* cNamePtr, int iStudentNum, int* iMarksPtr, int iMar
 // Takes a student instance, not a pointer. Sometimes this is done as a copy of the student
 // is made. If this function messes up the struct somehow, it will not mess up the struct
 // passed in.
-void DisplayStudent(student s);
+void DisplayStudent(student * s);
 
 // This function will free the memory allocated for a student instance.
 // In C++, there is a function called a destructor where the programmer is
