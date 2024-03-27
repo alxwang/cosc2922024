@@ -2,18 +2,11 @@
 // Created by Alex Wang on 2024-03-22.
 //
 
-#ifndef STUDENT_STRUCT_H
-#define STUDENT_STRUCT_H
+#ifndef STUDENT_STUDENT_H
+#define STUDENT_STUDENT_H
 #define MAX_NAME_SIZE 128
-/*
- * Define two structs
- * 1. student includes name(not limitation pls), student#, list of marks(no limitation)
- * 2. class include list of students(no limitation)
- *
- * Let's get into the break room and working on create 2 structs
- * I will start in 1:50
- *
- */
+#include <stdio.h>
+
 typedef struct
 {
     //name
@@ -52,6 +45,15 @@ void DisplayStudent(student * s);
 // supposed to release memory and clean up any other resources - this is similar.
 void FreeStudent(student* sPtr);
 
+//Convert student struct to a mem block so we can easily write it to file
+unsigned char * Student2Stream(student * s);
+//Write classroom to file
+void writeClassroom2File(classroom * c, FILE * f);
+//read classroom from file
+void readClassroomFromFile(classroom * c, FILE * f);
+//Without touch/access classroom struct, add a new student into file directly
+void addStudent2FileWithoutClassroom(student * s, FILE * f);
+
 // Get student data from the user
 student* GetStudent();
 
@@ -65,4 +67,4 @@ void DisplayClassroom(classroom * c);
 void FreeClassroom(classroom* classPtr);
 
 
-#endif //STUDENT_STRUCT_H
+#endif //STUDENT_STUDENT_H
