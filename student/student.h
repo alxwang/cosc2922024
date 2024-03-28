@@ -6,7 +6,8 @@
 #define STUDENT_STUDENT_H
 #define MAX_NAME_SIZE 128
 #include <stdio.h>
-
+#pragma push(pack)
+#pragma pack(1)
 typedef struct
 {
     //name
@@ -24,7 +25,7 @@ typedef struct
     student ** sPtrPtr; //-->student * sPtr[] without limitation
     int sNumStudents;
 }classroom;
-
+#pragma pop(pack)
 /*
  * Define func for two structs
  */
@@ -46,11 +47,11 @@ void DisplayStudent(student * s);
 void FreeStudent(student* sPtr);
 
 //Convert student struct to a mem block so we can easily write it to file
-unsigned char * Student2Stream(student * s);
+unsigned char * Student2Stream(student * s, int * nSize);
 //Write classroom to file
 void writeClassroom2File(classroom * c, FILE * f);
 //read classroom from file
-void readClassroomFromFile(classroom * c, FILE * f);
+void readClassroomFromFile(classroom ** c, FILE * f);
 //Without touch/access classroom struct, add a new student into file directly
 void addStudent2FileWithoutClassroom(student * s, FILE * f);
 

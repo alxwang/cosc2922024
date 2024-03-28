@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "student.h"
+#include "fileio.h"
 
 student* CreateStudent(char* cNamePtr, int iStudentNum, int* iMarksPtr, int iMarkCount)
 {
@@ -91,23 +92,100 @@ void DisplayClassroom(classroom * c)
         DisplayStudent(c->sPtrPtr[i]);
     }
 }
+/*
+ * typedef struct
+{
+    //name
+    char * cNamePtr;
+    //student#
+    int iStudentNum;
+    //list of marks
+    int * iMarkPtr;
+    int iMarkCount;
+}student;
+ */
+
 
 //Convert student struct to a mem block so we can easily write it to file
-unsigned char * Student2Stream(student * s)
+unsigned char * Student2Stream(student * s, int * nSize)
 {
+    *nSize =sizeof(int) //Overall size to read except this number
+                +sizeof(int) //Space for iStudenNUm
+                +sizeof(int)//Space for iMarkCount
+                +strlen(s->cNamePtr)//space for name
+                +sizeof(int)//Space of the length for name
+                +sizeof(int)*s->iMarkCount;//Space of marks
 
+    unsigned char * memblock = (unsigned char*) malloc(*nSize);
+    unsigned char * pCur = memblock;
+    *((int*)pCur)=*nSize-sizeof(int);
+    pCur+=sizeof(int);//Move forward 4 bytes
+    *((int*)pCur)= strlen(s->cNamePtr);//First 4 bytes is the len of name
+    pCur+=sizeof(int);//Move forward 4 bytes
+    strcpy(pCur,s->cNamePtr);//Copy name to the memblock
+    pCur+= strlen(s->cNamePtr);//Move forward name-len bytes
+    *((int*)pCur)=s->iStudentNum;
+    pCur+=sizeof(int);
+    *((int*)pCur)=s->iMarkCount;
+    pCur+=sizeof(int);
+    memcpy(pCur,s->iMarkPtr,sizeof(int)*s->iMarkCount);
+    return memblock;
 }
 
 //Write classroom to file
 void writeClassroom2File(classroom * c, FILE * f)
 {
-
+    //Write the num students
+    fwrite(&c->sNumStudents,sizeof(int),1,f);
+    for(int i=0;i<c->sNumStudents;i++)
+    {
+        int nSize = 0;
+        unsigned char * memblk = Student2Stream(c->sPtrPtr[i],&nSize);
+        writeFile(f,memblk,nSize);
+        free(memblk);
+        memblk=NULL;
+    }
 }
 
 //read classroom from file
-void readClassroomFromFile(classroom * c, FILE * f)
+void readClassroomFromFile(classroom ** c, FILE * f)
 {
+    int numStudent = 0;
+    fread(&numStudent,sizeof(int),1,f);
+    *c = (classroom*) malloc(sizeof(classroom));
+    (*c)->sNumStudents=numStudent;
+    for(int i=0;i<numStudent;i++)
+    {
+        student * s = (student*) malloc(sizeof(student));
+        (*c)->sPtrPtr[i]=s;
+        int sizeofRec = 0;
+        fread(&sizeofRec,sizeof(int),1,f);
+        unsigned char * memblk = (unsigned char *) malloc(sizeofRec);
+        readFile(f,memblk,sizeofRec);
 
+        unsigned char * pCur = memblk;
+
+        //Why we can not use strdup?
+        //How to change our code to use it?
+        //Can we use strcpy instead of memcpy?
+        int namesize = *((int*)pCur);
+        pCur+=sizeof(int);
+        s->cNamePtr = (char*) malloc(namesize+1);//First 4 bytes is the len of name
+        memset(s->cNamePtr,0,namesize+1);
+        memcpy(pCur,s->cNamePtr,namesize);
+
+        pCur+= strlen(s->cNamePtr);//Move forward name-len bytes
+
+        s->iStudentNum = *((int*)pCur);
+        pCur+=sizeof(int);
+
+        s->iMarkCount = *((int*)pCur);
+        pCur+=sizeof(int);
+
+        s->iMarkPtr = (int*) malloc(sizeof(int)*s->iMarkCount);
+        memcpy(pCur,s->iMarkPtr,sizeof(int)*s->iMarkCount);
+
+    }
 }
 
 //Without touch/access classroom struct, add a new student into file directly
