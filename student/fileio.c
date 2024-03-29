@@ -10,11 +10,11 @@ FILE* openFile(const char* fileName, const char* fileMode)
     FILE * f = NULL;
     if((f= fopen(fileName,fileMode))!=NULL)
     {
-        printf("File opened\n");
+        printf("File %s opened with mode %s\n",fileName,fileMode);
     }
     else
     {
-        printf("File open failed\n");
+        printf("Failed to open file %s with mode %s\n",fileName,fileMode);
     }
     return f;
 }

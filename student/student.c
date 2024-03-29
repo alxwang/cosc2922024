@@ -93,18 +93,14 @@ void DisplayClassroom(classroom * c)
     }
 }
 /*
- * typedef struct
-{
-    //name
-    char * cNamePtr;
-    //student#
-    int iStudentNum;
-    //list of marks
-    int * iMarkPtr;
-    int iMarkCount;
-}student;
+ * Memory block layout:
+ * int 4 overall size of the memblk - 4(the current int)
+ * int 4 len of name(not include null ending)
+ * char ? name(not include null ending)
+ * int 4 student num
+ * int 4 iMarkCount
+ * int ? marks
  */
-
 
 //Convert student struct to a mem block so we can easily write it to file
 unsigned char * Student2Stream(student * s, int * nSize)
@@ -124,11 +120,11 @@ unsigned char * Student2Stream(student * s, int * nSize)
     pCur+=sizeof(int);//Move forward 4 bytes
     strcpy(pCur,s->cNamePtr);//Copy name to the memblock
     pCur+= strlen(s->cNamePtr);//Move forward name-len bytes
-    *((int*)pCur)=s->iStudentNum;
-    pCur+=sizeof(int);
-    *((int*)pCur)=s->iMarkCount;
-    pCur+=sizeof(int);
-    memcpy(pCur,s->iMarkPtr,sizeof(int)*s->iMarkCount);
+    *((int*)pCur)=s->iStudentNum; //copy student #
+    pCur+=sizeof(int);//Move forward 4 bytes
+    *((int*)pCur)=s->iMarkCount;//Copy marks count
+    pCur+=sizeof(int);//Move forward 4 bytes
+    memcpy(pCur,s->iMarkPtr,sizeof(int)*s->iMarkCount); //Copy all marks
     return memblock;
 }
 
@@ -139,52 +135,74 @@ void writeClassroom2File(classroom * c, FILE * f)
     fwrite(&c->sNumStudents,sizeof(int),1,f);
     for(int i=0;i<c->sNumStudents;i++)
     {
+        //For each student struct
         int nSize = 0;
+        //Get the memblk(cont.) for the student
         unsigned char * memblk = Student2Stream(c->sPtrPtr[i],&nSize);
+        //Write it to file
         writeFile(f,memblk,nSize);
         free(memblk);
         memblk=NULL;
     }
 }
 
+/*
+ * Memory block layout:
+ * int 4 overall size of the memblk - 4(the current int)
+ * int 4 len of name(not include null ending)
+ * char ? name(not include null ending)
+ * int 4 student num
+ * int 4 iMarkCount
+ * int ? marks
+ */
+
+student * Stream2Student(unsigned char * memblk)
+{
+    student * s = (student*) malloc(sizeof(student));
+    unsigned char * pCur = memblk;
+    //Read size of name in bytes(not including null ending)
+    int namesize = *((int*)pCur);
+    pCur+=sizeof(int);//Move forward 4 bytes
+    //Alloc string for name
+    s->cNamePtr = (char*) malloc(namesize+1);//First 4 bytes is the len of name
+    //Set string to ""
+    memset(s->cNamePtr,0,namesize+1);
+    //Copy all chars to name(not include null ending)
+    memcpy(s->cNamePtr,pCur,namesize);
+    //Move forward name len bytes
+    pCur+= strlen(s->cNamePtr);//Move forward name-len bytes
+    //Copy student #
+    s->iStudentNum = *((int*)pCur);
+    pCur+=sizeof(int);//Move forward 4 bytes
+    //Copy mark count
+    s->iMarkCount = *((int*)pCur);
+    pCur+=sizeof(int);//Move forward 4 bytes
+    //Alloc int array for marks
+    s->iMarkPtr = (int*) malloc(sizeof(int)*s->iMarkCount);
+    //Copy all marks
+    memcpy(s->iMarkPtr,pCur,sizeof(int)*s->iMarkCount);
+    return s;
+}
+
 //read classroom from file
 void readClassroomFromFile(classroom ** c, FILE * f)
 {
     int numStudent = 0;
+    //read student count
     fread(&numStudent,sizeof(int),1,f);
     *c = (classroom*) malloc(sizeof(classroom));
     (*c)->sNumStudents=numStudent;
+    (*c)->sPtrPtr = (student**) malloc((*c)->sNumStudents*sizeof(student*));
     for(int i=0;i<numStudent;i++)
     {
-        student * s = (student*) malloc(sizeof(student));
-        (*c)->sPtrPtr[i]=s;
+        //for each student
         int sizeofRec = 0;
+        //Read the num of bytes for the student
         fread(&sizeofRec,sizeof(int),1,f);
+        //read those bytes
         unsigned char * memblk = (unsigned char *) malloc(sizeofRec);
         readFile(f,memblk,sizeofRec);
-
-        unsigned char * pCur = memblk;
-
-        //Why we can not use strdup?
-        //How to change our code to use it?
-        //Can we use strcpy instead of memcpy?
-        int namesize = *((int*)pCur);
-        pCur+=sizeof(int);
-        s->cNamePtr = (char*) malloc(namesize+1);//First 4 bytes is the len of name
-        memset(s->cNamePtr,0,namesize+1);
-        memcpy(pCur,s->cNamePtr,namesize);
-
-        pCur+= strlen(s->cNamePtr);//Move forward name-len bytes
-
-        s->iStudentNum = *((int*)pCur);
-        pCur+=sizeof(int);
-
-        s->iMarkCount = *((int*)pCur);
-        pCur+=sizeof(int);
-
-        s->iMarkPtr = (int*) malloc(sizeof(int)*s->iMarkCount);
-        memcpy(pCur,s->iMarkPtr,sizeof(int)*s->iMarkCount);
-
+        (*c)->sPtrPtr[i]= Stream2Student(memblk);
     }
 }
 
