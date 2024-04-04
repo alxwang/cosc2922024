@@ -209,5 +209,31 @@ void readClassroomFromFile(classroom ** c, FILE * f)
 //Without touch/access classroom struct, add a new student into file directly
 void addStudent2FileWithoutClassroom(student * s, FILE * f)
 {
-
+    //Assume f is opened as append and
+    // has at only one classroom
+    //Seek to the beginning
+    fseek(f,0,SEEK_SET);
+    //Read 4 byte as int and keep it as the student count
+    int nCount = 0;
+    if (sizeof(int)!=fread(&nCount,sizeof(int),1,f))
+    {
+        printf("Failed to read student count\n");
+        return;
+    }
+    //Seek to the end because we only APPEND
+    fseek(f,0,SEEK_END);
+    //Call Student2Steam to get the memblok
+    int nSize = 0;
+    unsigned char * memblk = Student2Stream(s,&nSize);
+    //Write the memblok to the end of file
+    writeFile(f,memblk,nSize);
+    //Seek to the beginning
+    fseek(f,0,SEEK_SET);
+    //Write/update the student count
+    //Write 4 byte int as count+1
+    nCount++;
+    if (sizeof(int)!=fwrite(&nCount,sizeof(int),1,f))
+    {
+        printf("Failed to update student count\n");
+    }
 }
