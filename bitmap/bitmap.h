@@ -61,5 +61,35 @@ typedef struct
 
 #pragma pack(pop) // Used to reset the default byte alignment
 
+// Function pointers for editing a bitmap image
+typedef void (*BM_FUNC_PTR)(PIXEL*);
+typedef void (*BM_TWO_PIXELS)(PIXEL*, PIXEL*);
+
+
+FILE* GetFile(char* cPrompt, char* cMode);
+
+void ReadImage(IMAGE*, FILE*);
+void ReadHeader(IMAGE*, FILE*);
+void ReadData(IMAGE*, FILE*);
+
+void PrintHeader(BITMAPHDR*);
+
+void ManipulateImage(IMAGE*, BM_FUNC_PTR);
+PIXEL* GetPixel(int row, int col, IMAGE* imgPtr);
+
+void ManipulateTwoImages(IMAGE*, IMAGE*, BM_TWO_PIXELS);
+
+IMAGE ResizeCanvas(IMAGE*, int, int);
+void InitializePixelData(IMAGE* imgPtr, PIXEL desiredPixel);
+
+IMAGE Crop(IMAGE*, int, int, int, int);
+IMAGE RotateImage(IMAGE* imgPtr, double theta);
+void AntiAlias(IMAGE*);
+IMAGE FancyRotateImage(IMAGE* imgPtr, double theta);
+
+void WriteImage(IMAGE*, FILE*);
+
+void FreeImage(IMAGE*);
+
 
 #endif //BITMAP_BITMAP_H

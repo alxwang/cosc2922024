@@ -18,3 +18,79 @@ FILE* GetFile(char* cPrompt, char* cMode)
 
     return aFile;
 }
+
+void ReadImage(IMAGE*, FILE*)
+{
+
+}
+
+void ReadHeader(IMAGE*, FILE*)
+{
+
+}
+
+void ReadData(IMAGE*, FILE*)
+{
+
+}
+
+void PrintHeader(BITMAPHDR*)
+{
+
+}
+
+void ManipulateImage(IMAGE*, BM_FUNC_PTR)
+{
+
+}
+
+PIXEL* GetPixel(int row, int col, IMAGE* imgPtr)
+{
+
+}
+
+void ManipulateTwoImages(IMAGE*, IMAGE*, BM_TWO_PIXELS)
+{
+
+}
+
+
+IMAGE ResizeCanvas(IMAGE*, int, int)
+{
+
+}
+
+void InitializePixelData(IMAGE* imgPtr, PIXEL desiredPixel)
+{
+
+}
+
+IMAGE Crop(IMAGE*, int, int, int, int)
+{
+
+}
+
+IMAGE RotateImage(IMAGE* imgPtr, double theta)
+{
+
+}
+
+void AntiAlias(IMAGE*)
+{
+
+}
+
+IMAGE FancyRotateImage(IMAGE* imgPtr, double theta)
+{
+
+}
+
+void WriteImage(IMAGE*, FILE*)
+{
+
+}
+
+void FreeImage(IMAGE*)
+{
+
+}
